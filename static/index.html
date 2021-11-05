@@ -39,8 +39,6 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
         if (xhr.readyState==4) {
             try {
                 if (xhr.status==200) {
-                    //XXX: parse some JSON from the request!
-                    //XXX: Pass the data to the callback!
 		    data = JSON.parse(xhr.response)
 		    callback(data)
 		    
@@ -51,10 +49,7 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
             }
         }
     };
-    
-    //XXX: POST to a URL
-    //XXX: set the mimetype and the accept headers!
-    // Remember to use application/json !
+
     xhr.overrideMimeType("application/json");
     xhr.open("POST", url)
     xhr.send(objects);
@@ -66,7 +61,6 @@ world = {};
 cycle = 0;
 radius = 20;
 const cycleColours = ['red','orange','yellow','green','blue','indigo','violet'];
-//XXX: TODO Make this prettier!
 function drawCircle(context,entity) {
     with(context) {
         beginPath();              
@@ -76,7 +70,7 @@ function drawCircle(context,entity) {
         //moveTo(x,y);
         fillStyle = entity["colour"];
         strokeStyle = fillStyle;
-        arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 1.0 * Math.PI, false);  
+        arc(x, y, (entity["radius"])?entity["radius"]:50, 1.0 * Math.PI, 2.0 * Math.PI, false);  
         stroke();                                
     }
 }
@@ -200,7 +194,6 @@ mouse = (function() {
                 var y = pos[1];
 	        self.clicked = 1;
                 self.callListeners(self.mousedowners,x,y,self.clicked,e);
-                addEntityWithoutName({'x':x,'y':y,'colour':'red'});
             }
         },
         mouseup: function(e) {
@@ -214,7 +207,6 @@ mouse = (function() {
 	        self.clicked = 0;
                 self.selected = -1;
                 self.callListeners(self.mouseuppers,x,y,self.clicked,e);
-                addEntityWithoutName({'x':x,'y':y,'colour':'blue'});
             }
         },
         touchstart: function(e) {
@@ -259,7 +251,6 @@ mouse = (function() {
 })();
 
 // Add the application specific mouse listeners!
-//XXX: TODO Make these prettier!
 mouse.mousedowners.push(function(x,y,clicked,e) {
     radius = radius + 5;
     addEntityWithoutName({'x':x,'y':y,'colour':'white','radius':radius});
